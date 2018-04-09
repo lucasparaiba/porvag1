@@ -1,0 +1,116 @@
+<div class="container">
+    <h1>Ocorrencias</h1>
+    <hr>
+    <div *ngIf="excluir_ok" class="alert alert-success">
+        <strong>Sucesso!</strong> A ocorrência foi excluída com sucesso.
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th width="200">Data</th>
+            <th width="200">Matricula</th>
+            <th width="200">Nome</th>
+            <th width="200">Tipo</th>
+            <th width="200">Funções</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let ocorrencia of ocorrencias"
+            [class.table-active]="editando == ocorrencia">
+            <td>
+                <i *ngIf="editando == ocorrencia"
+                   class="fa fa-pencil-square"></i>
+                {{ocorrencia.data}}
+            </td>
+            <td>
+                <i *ngIf="editando == ocorrencia"
+                    class="fa fa-pencil-square"></i>    
+                {{ocorrencia.matricula}}
+            </td>
+            <td>
+                <i *ngIf="editando == ocorrencia"
+                    class="fa fa-pencil-square"></i>    
+                {{ocorrencia.nome_aluno}}
+            </td>
+            <td>
+                <i *ngIf="editando == ocorrencia"
+                    class="fa fa-pencil-square"></i>    
+                {{ocorrencia.tipo}}
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger"
+                        (click)="excluir(ocorrencia)">
+                    <i class="fa fa-trash"></i> Excluir
+                </button>
+                <button class="btn btn-sm btn-primary"
+                        (click)="editar(ocorrencia)">
+                    <i class="fa fa-pencil-square"></i> Editar
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Cadastrar</h2>
+    <p>Use este formulário para cadastrar ou editar uma Ocorrência.</p>
+    <div *ngIf="salvar_ok || editar_ok" class="alert alert-success">
+        <strong>Sucesso!</strong> A Ocorrência foi cadastrada ou atualizada
+        com sucesso.
+    </div>
+    <form #cadastro="ngForm" (submit)="salvar()">
+        <div class="form-group">
+            <label for="matricula">Matricula</label><br>
+            <input type="text" id="matricula" name="matricula" class="form-control"
+                   [(ngModel)]="matricula"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="nome_aluno">Nome</label><br>
+            <input type="text" id="nome_aluno" name="nome_aluno" class="form-control"
+                   [(ngModel)]="nome_aluno"
+                   required>
+        </div>
+        <div class="form-group">
+                <label for="data">Data</label><br>
+                <input type="date" id="data" name="data" class="form-control"
+                       [(ngModel)]="data"
+                       required>
+        </div>           
+        <div class="form-check">
+                <input class = "form-check-imput" name = "paiscompareceram" type="checkbox" value = "A" id="paiscompareceram"
+                       [(ngModel)]="paiscompareceram">
+                <label class="form-check-label" for="estaAtivo">Os pais compareceram ?</label>
+        </div>
+        <div *ngIf = "paiscompareceram">
+                <label for="nomedoresponsavel">Nome do responsavel</label><br>
+                <input type="text" id="nomedoresponsavel" name="nomedoresponsavel" class="form-control"
+                       [(ngModel)]="nomedoresponsavel">
+        </div>              
+        <div class="form-group">
+            <label for="observacao">observacao</label><br>
+            <textarea id="observacao" name="observacao" class="form-control"
+                      [(ngModel)]="observacao"
+                      cols="70" rows="5"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Tipo</label>
+            <select class="form-control" id="tipo" name = "tipo"
+            [(ngModel)]="tipo" required>
+              <option value = 1>Indisciplina em sala de aula</option>
+              <option value = 2>Comportamento inadequado com colegas</option>
+              <option value = 3>Baixo indice de rendimento</option>
+              <option value = 4>indicação de atenção por assunto familiar, psicológico ou social</option>
+            </select>
+          </div>
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary"
+                    [disabled]="!cadastro.valid">
+                <i class="fa fa-save"></i> Salvar
+            </button>
+            <button type="reset" class="btn btn-secondary" (click)="cancelar()">
+                Cancelar
+            </button>
+        </div>
+    </form>
+</div>
